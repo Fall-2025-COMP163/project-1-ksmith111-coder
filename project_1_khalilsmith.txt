@@ -1,0 +1,136 @@
+# project1_starter.py
+# Name: Khalil Smith
+# Date: 10/30/25
+# --------------------------------------------
+# Text-Based RPG Character Creator
+# Uses: variables, expressions, branching, loops,
+# strings, functions, and file I/O.
+# --------------------------------------------
+
+# Create a new character
+def create_character(name, character_class):
+    level = 1
+    gold = 100
+
+    # set base stats using branching
+    if character_class == "Warrior":
+        strength = 10
+        magic = 2
+        health = 15
+    elif character_class == "Mage":
+        strength = 3
+        magic = 10
+        health = 8
+    elif character_class == "Rogue":
+        strength = 6
+        magic = 6
+        health = 7
+    elif character_class == "Cleric":
+        strength = 5
+        magic = 8
+        health = 12
+    else:
+        print("Unknown class. Default stats used.")
+        strength = 5
+        magic = 5
+        health = 10
+
+    character = [name, character_class, level, strength, magic, health, gold]
+    return character
+
+
+# Save character info to a text file
+def save_character(character, filename):
+    file = open(filename, "w")
+    file.write("Character Name: " + character[0] + "\n")
+    file.write("Class: " + character[1] + "\n")
+    file.write("Level: " + str(character[2]) + "\n")
+    file.write("Strength: " + str(character[3]) + "\n")
+    file.write("Magic: " + str(character[4]) + "\n")
+    file.write("Health: " + str(character[5]) + "\n")
+    file.write("Gold: " + str(character[6]) + "\n")
+    file.close()
+
+
+# Load character info from a file
+def load_character(filename):
+    file = open(filename, "r")
+    lines = file.readlines()
+    file.close()
+
+    # extract values from lines
+    name = lines[0].strip().split(": ")[1]
+    character_class = lines[1].strip().split(": ")[1]
+    level = int(lines[2].strip().split(": ")[1])
+    strength = int(lines[3].strip().split(": ")[1])
+    magic = int(lines[4].strip().split(": ")[1])
+    health = int(lines[5].strip().split(": ")[1])
+    gold = int(lines[6].strip().split(": ")[1])
+
+    character = [name, character_class, level, strength, magic, health, gold]
+    return character
+
+
+# Display the character
+def display_character(character):
+    print("=== CHARACTER INFO ===")
+    print("Name:", character[0])
+    print("Class:", character[1])
+    print("Level:", character[2])
+    print("Strength:", character[3])
+    print("Magic:", character[4])
+    print("Health:", character[5])
+    print("Gold:", character[6])
+    print("=======================")
+
+
+# Level up function
+def level_up(character):
+    character[2] = character[2] + 1  # level +1
+    character[3] = character[3] + 2  # strength +2
+    character[4] = character[4] + 2  # magic +2
+    character[5] = character[5] + 5  # health +5
+    print(character[0], "leveled up to level", character[2])
+    return character
+
+
+# Main program
+def main():
+    print("Welcome to the RPG Character Creator!")
+    print("1. Create New Character")
+    print("2. Load Existing Character")
+    choice = input("Choose an option: ")
+
+    if choice == "1":
+        name = input("Enter your character's name: ")
+        print("Choose a class: Warrior, Mage, Rogue, or Cleric")
+        character_class = input("Class: ")
+        character_class = character_class.capitalize()
+
+        character = create_character(name, character_class)
+        display_character(character)
+
+        filename = name + ".txt"
+        save_character(character, filename)
+        print("Character saved as", filename)
+
+    elif choice == "2":
+        filename = input("Enter the filename to load (include .txt): ")
+        character = load_character(filename)
+        display_character(character)
+
+        answer = input("Would you like to level up? (y/n): ")
+        if answer == "y":
+            character = level_up(character)
+            save_character(character, filename)
+            print("Character leveled up and saved!")
+
+    else:
+        print("Invalid choice. Goodbye!")
+
+
+# Run the program
+main()
+
+git clone project_1_khalilsmith
+git cd
